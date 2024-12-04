@@ -32,6 +32,8 @@ import lightlogo from "../../assets/images/logo-light.svg";
 import logo from "../../assets/images/logo.svg";
 import profile from "../../assets/images/profile-img.png";
 
+import { withTranslation } from "react-i18next";
+
 const Login = (props) => {
   //meta title
   document.title = "Login | Skote - Vite React Admin & Dashboard Template";
@@ -41,10 +43,10 @@ const Login = (props) => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
-    // initialValues: {
-    //   email: "admin@themesbrand.com" || "",
-    //   password: "123456" || "",
-    // },
+    initialValues: {
+      email: "",
+      password: "",
+    },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
@@ -63,12 +65,12 @@ const Login = (props) => {
 
   const { error } = useSelector(LoginProperties);
 
-  // const signIn = type => {
-  //   dispatch(socialLogin(type, props.router.navigate));
+  // const signIn = (type) => {
+  //   // dispatch(socialLogin(type, props.router.navigate));
   // };
 
   //for facebook and google authentication
-  // const socialResponse = type => {
+  // const socialResponse = (type) => {
   //   signIn(type);
   // };
 
@@ -88,8 +90,10 @@ const Login = (props) => {
                   <Row>
                     <Col xs={7}>
                       <div className="text-primary p-4">
-                        <h5 className="text-primary">Welcome Back !</h5>
-                        <p>Sign in to continue to Skote.</p>
+                        <h5 className="text-primary">
+                          {props.t("Welcome Back !")}
+                        </h5>
+                        <p>{props.t("Sign in to continue to Mandala.")}</p>
                       </div>
                     </Col>
                     <Col className="col-5 align-self-end">
@@ -159,7 +163,9 @@ const Login = (props) => {
                       </div>
 
                       <div className="mb-3">
-                        <Label className="form-label">Password</Label>
+                        <Label className="form-label">
+                          {props.t("Password")}
+                        </Label>
                         <Input
                           name="password"
                           autoComplete="off"
@@ -193,7 +199,7 @@ const Login = (props) => {
                           className="form-check-label"
                           htmlFor="customControlInline"
                         >
-                          Remember me
+                          {props.t("Remember me")}
                         </label>
                       </div>
 
@@ -202,52 +208,21 @@ const Login = (props) => {
                           className="btn btn-primary btn-block"
                           type="submit"
                         >
-                          Log In
+                          {props.t("Log In")}
                         </button>
                       </div>
 
                       {/* <div className="mt-4 text-center">
-                        <h5 className="font-size-14 mb-3">Sign in with</h5>
+                        <h5 className="font-size-14 mb-3">
+                          {props.t("Sign in with")}
+                        </h5>
 
                         <ul className="list-inline">
                           <li className="list-inline-item">
                             <Link
                               to="#"
-                              className="social-list-item bg-primary text-white border-primary"
-                              onClick={e => {
-                                e.preventDefault();
-                                socialResponse("facebook");
-                              }}
-                            >
-                              <i className="mdi mdi-facebook" />
-                            </Link>
-                          </li>
-                          {/*<li className="list-inline-item">*/}
-                      {/*  <TwitterLogin*/}
-                      {/*    loginUrl={*/}
-                      {/*      "http://localhost:4000/api/v1/auth/twitter"*/}
-                      {/*    }*/}
-                      {/*    onSuccess={this.twitterResponse}*/}
-                      {/*    onFailure={this.onFailure}*/}
-                      {/*    requestTokenUrl={*/}
-                      {/*      "http://localhost:4000/api/v1/auth/twitter/revers"*/}
-                      {/*    }*/}
-                      {/*    showIcon={false}*/}
-                      {/*    tag={"div"}*/}
-                      {/*  >*/}
-                      {/*    <a*/}
-                      {/*      href=""*/}
-                      {/*      className="social-list-item bg-info text-white border-info"*/}
-                      {/*    >*/}
-                      {/*      <i className="mdi mdi-twitter"/>*/}
-                      {/*    </a>*/}
-                      {/*  </TwitterLogin>*/}
-                      {/*</li>*/}
-                      {/* <li className="list-inline-item">
-                            <Link
-                              to="#"
                               className="social-list-item bg-danger text-white border-danger"
-                              onClick={e => {
+                              onClick={(e) => {
                                 e.preventDefault();
                                 socialResponse("google");
                               }}
@@ -261,7 +236,7 @@ const Login = (props) => {
                       <div className="mt-4 text-center">
                         <Link to="/forgot-password" className="text-muted">
                           <i className="mdi mdi-lock me-1" />
-                          Forgot your password?
+                          {props.t("Forgot your password?")}
                         </Link>
                       </div>
                     </Form>
@@ -270,10 +245,10 @@ const Login = (props) => {
               </Card>
               <div className="mt-5 text-center">
                 <p>
-                  Don&#39;t have an account ?{" "}
+                  {props.t("Don't have an account ?")}{" "}
                   <Link to="/register" className="fw-medium text-primary">
                     {" "}
-                    Signup now{" "}
+                    {props.t("Signup now")}{" "}
                   </Link>{" "}
                 </p>
                 <p>
@@ -289,8 +264,9 @@ const Login = (props) => {
   );
 };
 
-export default withRouter(Login);
-
 Login.propTypes = {
   history: PropTypes.object,
+  t: PropTypes.any,
 };
+
+export default withRouter(withTranslation()(Login));
