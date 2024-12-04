@@ -22,19 +22,29 @@ class FirebaseAuthBackend {
   /**
    * Registers the user with given details
    */
-  registerUser = (email, password) => {
+  registerUser = (user) => {
+    console.log(user);
     return new Promise((resolve, reject) => {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(
-          (user) => {
-            resolve(firebase.auth().currentUser);
-          },
-          (error) => {
-            reject(this._handleError(error));
-          },
-        );
+        .createUserWithEmailAndPassword(user.email, user.password)
+        .then(async (userCredential) => {
+          try {
+
+            // const userAuth = userCredential.user;
+            await userCredential.user.sendEmailVerification();
+            console.log("Email Enviado");
+            
+
+            const userData = await this.addNewUserToFirestore(user); // Salva no Firestore
+            resolve(userData); // Resolve com os dados do usuário
+          } catch (error) {
+            reject("Erro ao salvar dados no Firestore: " + error);
+          }
+        })
+        .catch((error) => {
+          reject(this._handleError(error)); // Trata erro de registro
+        });
     });
   };
 
@@ -135,13 +145,11 @@ class FirebaseAuthBackend {
 
   addNewUserToFirestore = (user) => {
     const collection = firebase.firestore().collection("users");
-    const { profile } = user.additionalUserInfo;
     const details = {
-      firstName: profile.given_name ? profile.given_name : profile.first_name,
-      lastName: profile.family_name ? profile.family_name : profile.last_name,
-      fullName: profile.name,
-      email: profile.email,
-      picture: profile.picture,
+      name: user.name,
+      email: user.email,
+      lastName: user.lastName,
+      phone: user.phone,
       createdDtm: firebase.firestore.FieldValue.serverTimestamp(),
       lastLoginTime: firebase.firestore.FieldValue.serverTimestamp(),
     };
@@ -159,6 +167,13 @@ class FirebaseAuthBackend {
   getAuthenticatedUser = () => {
     if (!localStorage.getItem("authUser")) return null;
     return JSON.parse(localStorage.getItem("authUser"));
+  };
+
+  /**
+   * Returns if user have email verified
+   */
+  userVerifiedEmail = () => {
+    return firebase.auth().currentUser.emailVerified;
   };
 
   /**

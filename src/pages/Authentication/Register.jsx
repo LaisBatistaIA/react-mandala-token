@@ -47,7 +47,6 @@ const Register = (props) => {
       name: "",
       lastName: "",
       password: "",
-      cpf: "",
       phone: "",
     },
     validationSchema: Yup.object({
@@ -64,7 +63,6 @@ const Register = (props) => {
           /[!@#$%^&*(),.?":{}|<>]/,
           "Password must contain at least one special character",
         ),
-      cpf: Yup.string().required("Please Enter Your cpf"),
       phone: Yup.string().required("Please Enter Your Phone"),
     }),
     onSubmit: (values) => {

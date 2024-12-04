@@ -19,11 +19,10 @@ function* registerUser({ payload: { user } }) {
   console.log("using the following url for registration: ")
   try {
     console.log("Trying to register user (within try block)")
-    if (import.meta.env.VITE_APP_DEFAULTAUTH === "firebase") {
+    if (import.meta.env.VITE_APP_DEFAULTAUTH === "firebase") {      
       const response = yield call(
         fireBaseBackend.registerUser,
-        user.email,
-        user.password
+        user
       )
       yield put(registerUserSuccessful(response))
     } else if (import.meta.env.VITE_APP_DEFAULTAUTH === "jwt") {
