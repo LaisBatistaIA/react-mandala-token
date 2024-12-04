@@ -41,10 +41,10 @@ const Login = (props) => {
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
 
-    initialValues: {
-      email: "admin@themesbrand.com" || "",
-      password: "123456" || "",
-    },
+    // initialValues: {
+    //   email: "admin@themesbrand.com" || "",
+    //   password: "123456" || "",
+    // },
     validationSchema: Yup.object({
       email: Yup.string().required("Please Enter Your Email"),
       password: Yup.string().required("Please Enter Your Password"),
