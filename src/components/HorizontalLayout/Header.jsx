@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
 
 import { connect } from "react-redux";
 
@@ -8,24 +8,23 @@ import { Link } from "react-router-dom";
 // Redux Store
 import { showRightSidebarAction, toggleLeftmenu } from "/src/store/actions";
 // reactstrap
-import { Row, Col, Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
+import { Col, Dropdown, DropdownMenu, DropdownToggle, Row } from "reactstrap";
 
 // Import menuDropdown
 import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
 import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
 import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
 
-import megamenuImg from "../../assets/images/megamenu-img.png";
-import logo from "../../assets/images/logo.svg";
+import logoDark from "../../assets/images/logo-dark.png";
 import logoLight from "../../assets/images/logo-light.png";
 import logoLightSvg from "../../assets/images/logo-light.svg";
-import logoDark from "../../assets/images/logo-dark.png";
+import logo from "../../assets/images/logo.svg";
 
 // import images
-import github from "../../assets/images/brands/github.png";
 import bitbucket from "../../assets/images/brands/bitbucket.png";
 import dribbble from "../../assets/images/brands/dribbble.png";
 import dropbox from "../../assets/images/brands/dropbox.png";
+import github from "../../assets/images/brands/github.png";
 import mail_chimp from "../../assets/images/brands/mail_chimp.png";
 import slack from "../../assets/images/brands/slack.png";
 
@@ -33,7 +32,7 @@ import slack from "../../assets/images/brands/slack.png";
 import { withTranslation } from "react-i18next";
 
 const Header = (props) => {
-  const [menu, setMenu] = useState(false);
+  // const [menu, setMenu] = useState(false);
   const [isSearch, setSearch] = useState(false);
   const [socialDrp, setsocialDrp] = useState(false);
 
@@ -50,7 +49,7 @@ const Header = (props) => {
         document.documentElement.mozRequestFullScreen();
       } else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(
-          Element.ALLOW_KEYBOARD_INPUT
+          Element.ALLOW_KEYBOARD_INPUT,
         );
       }
     } else {
@@ -111,7 +110,8 @@ const Header = (props) => {
               </div>
             </form>
 
-            <Dropdown
+            {/* // Mega menu */}
+            {/* <Dropdown
               className="dropdown-mega d-none d-lg-block ms-2"
               isOpen={menu}
               toggle={() => setMenu(!menu)}
@@ -252,7 +252,7 @@ const Header = (props) => {
                   </Col>
                 </Row>
               </DropdownMenu>
-            </Dropdown>
+            </Dropdown> */}
           </div>
 
           <div className="d-flex">
