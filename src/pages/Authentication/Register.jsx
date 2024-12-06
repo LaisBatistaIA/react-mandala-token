@@ -13,6 +13,8 @@ import {
   Row,
 } from "reactstrap";
 
+import { useNavigate } from "react-router-dom";
+
 // Formik Validation
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -37,6 +39,7 @@ const Register = (props) => {
   document.title = "Register | Mandala Token";
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -88,6 +91,12 @@ const Register = (props) => {
   useEffect(() => {
     dispatch(apiError(""));
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/login"); // Substitua "/dashboard" pelo caminho desejado
+    }
+  }, [user, navigate]);
 
   return (
     <>
