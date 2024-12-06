@@ -30,11 +30,8 @@ class FirebaseAuthBackend {
         .createUserWithEmailAndPassword(user.email, user.password)
         .then(async (userCredential) => {
           try {
-
             // const userAuth = userCredential.user;
             await userCredential.user.sendEmailVerification();
-            console.log("Email Enviado");
-            
 
             const userData = await this.addNewUserToFirestore(user); // Salva no Firestore
             resolve(userData); // Resolve com os dados do usuário
@@ -51,19 +48,30 @@ class FirebaseAuthBackend {
   /**
    * Registers the user with given details
    */
-  editProfileAPI = (email, password) => {
+  editProfileAPI = (user) => {
     return new Promise((resolve, reject) => {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(
-          (user) => {
-            resolve(firebase.auth().currentUser);
-          },
-          (error) => {
+      this.updateUserFirestore(user)
+      .then((result)=> {
+        resolve(result)
+      })
+      .catch((error) => {
+        reject(this._handleError(error));
+      });
+    });
+  };
+
+  changePassword = (userPasswords) => {
+    return new Promise((resolve, reject) => {
+      if (userPasswords.currentPassword && userPasswords.newPassword) {
+        this.reauthentication(userPasswords.currentPassword)
+          .then(() => this.changePassword(userPasswords.newPassword))
+            .then(() => {
+              resolve("Succesful Change Password");
+            })
+          .catch((error) => {
             reject(this._handleError(error));
-          },
-        );
+          });
+      }
     });
   };
 
@@ -76,7 +84,7 @@ class FirebaseAuthBackend {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then(
-          (user) => {
+          () => {
             resolve(firebase.auth().currentUser);
           },
           (error) => {
@@ -174,6 +182,83 @@ class FirebaseAuthBackend {
    */
   userVerifiedEmail = () => {
     return firebase.auth().currentUser.emailVerified;
+  };
+
+  getUserData = (userId) => {
+    return new Promise((resolve, reject) => {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(userId)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            resolve(doc.data());
+          } else {
+            reject(new Error("Documento não encontrado."));
+          }
+        })
+        .catch((error) => {
+          reject(this._handleError(error));
+        });
+    });
+  };
+
+  updateUserFirestore(user) {
+    const userRef = firebase.firestore().collection("users").doc(user.uid); // Referência ao documento do usuário
+
+    const updatedData = {};
+
+    // Atualiza apenas os campos que foram fornecidos
+    if (user.name) updatedData.name = user.name;
+    if (user.lastName) updatedData.lastName = user.lastName;
+    if (user.phone) updatedData.phone = user.phone;
+
+    // Se algum dado foi alterado, atualiza no Firestore
+    return userRef
+      .update(updatedData)
+      .then(() => {
+        console.log("Dados do usuário atualizados com sucesso no Firestore.");
+        return "Update User Data";
+      })
+      .catch((error) => {
+        console.error(
+          "Erro ao atualizar os dados do Firestore:",
+          error.message,
+        );
+        throw error; // Lança o erro para ser tratado em outro ponto
+      });
+  }
+
+  reauthentication = (password) => {
+    const user = firebase.auth().currentUser;
+    const credential = firebase.auth.EmailAuthProvider.credential(
+      user.email,
+      password,
+    );
+
+    return user
+      .reauthenticateWithCredential(credential)
+      .then(() => {
+        console.log("Reautenticação bem-sucedida.");
+      })
+      .catch((error) => {
+        console.error("Erro de reautenticação:", error.message);
+        throw error;
+      });
+  };
+
+  changePassword = (newPassword) => {
+    firebase
+      .auth()
+      .currentUser.updatePassword(newPassword)
+      .then(() => {
+        console.log("Senha alterada com sucesso!");
+      })
+      .catch((error) => {
+        console.error("Erro ao alterar a senha:", error.message);
+        throw error;
+      });
   };
 
   /**

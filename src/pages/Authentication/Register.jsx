@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Alert,
   Card,
@@ -37,6 +38,7 @@ const Register = (props) => {
   document.title = "Register | Mandala Token";
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -86,8 +88,11 @@ const Register = (props) => {
   } = useSelector(AccountProperties);
 
   useEffect(() => {
+    if(user){
+      setTimeout(() => navigate("/"), 5000); // Redireciona após 5 segundos
+    }
     dispatch(apiError(""));
-  }, []);
+  }, [user, navigate, dispatch]);
 
   return (
     <>
@@ -154,7 +159,14 @@ const Register = (props) => {
                     >
                       {user && user ? (
                         <Alert color="success">
-                          {props.t("Register User Successfully")}
+                          {props.t("Register User Successfully. \nCheck your inbox to confirm your email and unlock all features!")
+                            .split("\n")
+                            .map((line, index) => (
+                              <span key={index}>
+                                {line}
+                                <br />
+                              </span>
+                            ))}
                         </Alert>
                       ) : null}
 

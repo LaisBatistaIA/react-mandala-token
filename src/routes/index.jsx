@@ -9,9 +9,13 @@ import ForgetPwd from "../pages/Authentication/ForgetPassword";
 
 // // Dashboard
 import Dashboard from "../pages/Dashboard/index";
+import UserProfile from "../pages/Authentication/user-profile";
+import ChangePassword from "../pages/Authentication/change-password";
 
 const authProtectedRoutes = [
   { path: "/dashboard", component: <Dashboard /> },
+  { path: "/profile", component: <UserProfile /> },
+  { path: "/change-password", component: <ChangePassword /> },
 
   //   // this route should be at the end of all other routes
   //   // eslint-disable-next-line react/display-name

@@ -153,5 +153,27 @@
   "Extra Pages": "Páginas extra",
   "Horizontal layout": "Diseño horizontal",
   "Light Sidebar": "Barra lateral ligera",
-  "Compact Sidebar": "Barra lateral compacta"
+  "Compact Sidebar": "Barra lateral compacta",
+  "Name": "Nombre",
+  "Enter your name": "Escriba su nombre",
+  "Last name": "Apellido",
+  "Enter your last name": "Escriba su apellido",
+  "Phone": "Teléfono",
+  "Enter your phone": "Escriba su teléfono",
+  "Password": "Contraseña",
+  "Enter Password": "Escriba una contraseña",
+  "Get your free Mandala account now.": "Cree su cuenta gratuita en Mandala ahora.",
+  "Already have an account": "¿Ya tiene una cuenta?",
+  "Free Register": "Registro Gratuito",
+
+  "Edit Profile": "Editar Perfil",
+  "Update Profile": "Actualizar Perfil",
+  "Change Password": "Cambiar Contraseña",
+  "Current Password": "Contraseña Actual",
+  "Enter Current Password": "Escriba su Contraseña Actual",
+  "New Password": "Nueva Contraseña",
+  "Enter New Password": "Escriba su Nueva Contraseña",
+  "Confirm New Password": "Confirme su Nueva Contraseña",
+  "Enter Confirm New Password": "Repita su Nueva Contraseña",
+  "Check your inbox to confirm your email and unlock all features!": "¡Revise su bandeja de entrada para confirmar su correo electrónico y desbloquear todas las funciones!"
 }

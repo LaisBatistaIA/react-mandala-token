@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 
-// import PropTypes from "prop-types";
+
 import {
   Alert,
   Button,
@@ -31,9 +31,9 @@ import Breadcrumb from "../../components/Common/Breadcrumb";
 
 import avatar from "../../assets/images/users/avatar-1.jpg";
 // actions
-import { editProfile, getProfile, resetProfileFlag } from "/src/store/actions";
+import { changePassword, getProfile, resetProfileFlag } from "/src/store/actions";
 
-const UserProfile = (props) => {
+const ChangePassword = (props) => {
   //meta title
   document.title = "Profile | Skote - React Admin & Dashboard Template";
 
@@ -42,7 +42,6 @@ const UserProfile = (props) => {
   const [email, setemail] = useState("");
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
   const [idx, setidx] = useState(1);
   const [emailVerified, setemailVerified] = useState(false);
 
@@ -87,7 +86,6 @@ const UserProfile = (props) => {
     if (currentUser) {
       setName(currentUser.name || "");
       setLastName(currentUser.lastName || "");
-      setPhone(currentUser.phone || "");
     }
   }, [currentUser]);
 
@@ -96,15 +94,36 @@ const UserProfile = (props) => {
     enableReinitialize: true,
 
     initialValues: {
-      name: name || "",
-      lastName: lastName || "",
-      phone: phone || "",
       idx: idx || "",
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("Please Enter Your Name").max(30),
-      lastName: Yup.string().required("Please Enter Your Last Name").max(100),
-      phone: Yup.string().required("Please Enter Your Phone"),
+      currentPassword: Yup.string()
+        .required("Please Enter Your Password")
+        .min(8, "Password must be at least 8 characters long")
+        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+        .matches(/[0-9]/, "Password must contain at least one number")
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          "Password must contain at least one special character",
+        ),
+      newPassword: Yup.string()
+        .required("Please Enter Your New Password")
+        .min(8, "Password must be at least 8 characters long")
+        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+        .matches(/[0-9]/, "Password must contain at least one number")
+        .matches(
+          /[!@#$%^&*(),.?":{}|<>]/,
+          "Password must contain at least one special character",
+        )
+        .notOneOf(
+          [Yup.ref("currentPassword")],
+          "New Password must be different from Current Password",
+        ),
 
       // Validação para confirmar nova senha
       confirmNewPassword: Yup.string()
@@ -115,7 +134,7 @@ const UserProfile = (props) => {
         ),
     }),
     onSubmit: (values) => {
-      dispatch(editProfile(values));
+      dispatch(changePassword(values));
     },
   });
 
@@ -154,12 +173,12 @@ const UserProfile = (props) => {
             </Col>
           </Row>
 
-          <h4 className="card-title mb-3">{props.t("Edit Profile")}{""}</h4>
+          <h4 className="card-title mb-3">{props.t("Change Password")}{""}</h4>
 
           {!emailVerified ? (
             <Alert color="warning">
               {
-                "Check your inbox to confirm your email and unlock all features!"
+                props.t("Check your inbox to confirm your email and unlock all features!")
               }
             </Alert>
           ) : null}
@@ -175,85 +194,87 @@ const UserProfile = (props) => {
                 }}
               >
                 <div className="form-group mb-3">
-                  <Label className="form-label">{props.t("Name")}{""}</Label>
+                  <Label className="form-label">{props.t("Current Password")}{""}</Label>
                   <Input
-                    name="name"
+                    name="currentPassword"
                     // value={name}
                     className="form-control"
-                    placeholder={props.t("Enter your name")}
+                    placeholder={props.t("Enter Current Password")}
                     type="text"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.name || ""}
+                    // value={validation.values.lastName || ""}
                     invalid={
-                      validation.touched.name && validation.errors.name
+                      validation.touched.currentPassword &&
+                      validation.errors.currentPassword
                         ? true
                         : false
                     }
                     disabled={!emailVerified}
                   />
-                  {validation.touched.name && validation.errors.name ? (
+                  {validation.touched.currentPassword &&
+                  validation.errors.currentPassword ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.name}
+                      {validation.errors.currentPassword}
                     </FormFeedback>
                   ) : null}
                 </div>
                 <div className="form-group mb-3">
-                  <Label className="form-label">{props.t("Last name")}{""}</Label>
+                  <Label className="form-label">{props.t("New Password")}{""}</Label>
                   <Input
-                    name="lastName"
+                    name="newPassword"
                     // value={name}
                     className="form-control"
-                    placeholder={props.t("Enter your last name")}
+                    placeholder={props.t("Enter New Password")}
                     type="text"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.lastName || ""}
+                    value={validation.values.newPassword || ""}
                     invalid={
-                      validation.touched.lastName && validation.errors.lastName
+                      validation.touched.newPassword && validation.errors.newPassword
                         ? true
                         : false
                     }
                     disabled={!emailVerified}
                   />
-                  {validation.touched.lastName && validation.errors.lastName ? (
+                  {validation.touched.newPassword && validation.errors.newPassword ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.lastName}
+                      {validation.errors.newPassword}
                     </FormFeedback>
                   ) : null}
                 </div>
                 <div className="form-group mb-3">
-                  <Label className="form-label">{props.t("Phone")}{""}</Label>
+                  <Label className="form-label">{props.t("Confirm New Password")}{""}</Label>
                   <Input
-                    name="phone"
+                    name="confirmNewPassword"
                     // value={name}
                     className="form-control"
-                    placeholder={props.t("Enter your phone")}
+                    placeholder={props.t("Enter Confirm New Password")}
                     type="text"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
-                    value={validation.values.phone || ""}
+                    value={validation.values.confirmNewPassword || ""}
                     invalid={
-                      validation.touched.phone && validation.errors.phone
+                      validation.touched.confirmNewPassword && validation.errors.confirmNewPassword
                         ? true
                         : false
                     }
                     disabled={!emailVerified}
                   />
-                  {validation.touched.phone && validation.errors.phone ? (
+                  {validation.touched.confirmNewPassword && validation.errors.confirmNewPassword ? (
                     <FormFeedback type="invalid">
-                      {validation.errors.phone}
+                      {validation.errors.confirmNewPassword}
                     </FormFeedback>
                   ) : null}
+                  <Input name="idx" value={idx} type="hidden" />
                 </div>
-
                 <div className="text-center mt-4">
                   <Button
                     type="submit"
                     color="danger"
                     disabled={!emailVerified}
                   >
-                    {props.t("Update Profile")}{""}
+                    {props.t("Change Password")}{""}
                   </Button>
                 </div>
               </Form>
@@ -265,4 +286,4 @@ const UserProfile = (props) => {
   );
 };
 
-export default withTranslation()(withRouter(UserProfile));
+export default withTranslation()(withRouter(ChangePassword));

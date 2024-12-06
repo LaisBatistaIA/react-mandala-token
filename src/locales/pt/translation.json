@@ -164,5 +164,16 @@
   "Enter Password": "Escreva uma senha",
   "Get your free Mandala account now.": "Crie sua conta na Mandala de graça",
   "Already have an account": "Já tem uma conta",
-  "Free Register": "Registro Gratuito"
+  "Free Register": "Registro Gratuito",
+
+  "Edit Profile": "Editar Perfil",
+  "Update Profile": "Atualizar Perfil",
+  "Change Password": "Mudar Senha",
+  "Current Password": "Senha Atual",
+  "Enter Current Password": "Escreva sua Senha Atual",
+  "New Password": "Senha Nova",
+  "Enter New Password": "Escreva sua Senha Nova",
+  "Confirm New Password": "Confirme sua Senha Nova",
+  "Enter Confirm New Password": "Repita sua Senha Nova",
+  "Check your inbox to confirm your email and unlock all features!": "Verifique sua caixa de entrada para confirmar seu e-mail e desbloquear todos os recursos!"
 }
