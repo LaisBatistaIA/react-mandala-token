@@ -1,9 +1,19 @@
-import { PROFILE_ERROR, PROFILE_SUCCESS, EDIT_PROFILE, RESET_PROFILE_FLAG, GET_PROFILE, GET_PROFILE_SUCCESS, GET_PROFILE_ERROR } from "./actionTypes"
+import { 
+  PROFILE_ERROR, 
+  PROFILE_SUCCESS, 
+  EDIT_PROFILE, 
+  RESET_PROFILE_FLAG, 
+  GET_PROFILE, 
+  GET_PROFILE_SUCCESS, 
+  GET_PROFILE_ERROR,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_ERROR } from "./actionTypes"
 
 export const editProfile = user => {
   return {
     type: EDIT_PROFILE,
-    payload: user,
+    payload: { user },
   }
 }
 
@@ -23,14 +33,14 @@ export const profileError = error => {
 export const getProfile = userId => {
   return {
     type: GET_PROFILE,
-    payload: {userId},
+    payload: { userId },
   }
 }
 
 export const getProfileSuccess = user => {
   return {
     type: GET_PROFILE_SUCCESS,
-    payload: user ,
+    payload: user,
   }
 }
 
@@ -44,14 +54,14 @@ export const getProfileError = error => {
 export const changePassword = userPasswords => {
   return {
     type: CHANGE_PASSWORD,
-    payload: {userPasswords},
+    payload: { userPasswords },
   }
 }
 
 export const changePasswordSuccess = success => {
   return {
     type: CHANGE_PASSWORD_SUCCESS,
-    payload: success ,
+    payload: success,
   }
 }
 

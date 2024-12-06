@@ -200,7 +200,7 @@ const ChangePassword = (props) => {
                     // value={name}
                     className="form-control"
                     placeholder={props.t("Enter Current Password")}
-                    type="text"
+                    type="password"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     // value={validation.values.lastName || ""}
@@ -226,7 +226,7 @@ const ChangePassword = (props) => {
                     // value={name}
                     className="form-control"
                     placeholder={props.t("Enter New Password")}
-                    type="text"
+                    type="password"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.newPassword || ""}
@@ -250,7 +250,7 @@ const ChangePassword = (props) => {
                     // value={name}
                     className="form-control"
                     placeholder={props.t("Enter Confirm New Password")}
-                    type="text"
+                    type="password"
                     onChange={validation.handleChange}
                     onBlur={validation.handleBlur}
                     value={validation.values.confirmNewPassword || ""}

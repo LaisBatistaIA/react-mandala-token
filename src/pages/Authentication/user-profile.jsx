@@ -105,14 +105,6 @@ const UserProfile = (props) => {
       name: Yup.string().required("Please Enter Your Name").max(30),
       lastName: Yup.string().required("Please Enter Your Last Name").max(100),
       phone: Yup.string().required("Please Enter Your Phone"),
-
-      // Validação para confirmar nova senha
-      confirmNewPassword: Yup.string()
-        .required("Please Confirm Your New Password")
-        .oneOf(
-          [Yup.ref("newPassword")],
-          "Confirm Password must match New Password",
-        ),
     }),
     onSubmit: (values) => {
       dispatch(editProfile(values));

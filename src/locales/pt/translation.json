@@ -175,5 +175,7 @@
   "Enter New Password": "Escreva sua Senha Nova",
   "Confirm New Password": "Confirme sua Senha Nova",
   "Enter Confirm New Password": "Repita sua Senha Nova",
-  "Check your inbox to confirm your email and unlock all features!": "Verifique sua caixa de entrada para confirmar seu e-mail e desbloquear todos os recursos!"
+  "Check your inbox to confirm your email and unlock all features!": "Verifique sua caixa de entrada para confirmar seu e-mail e desbloquear todos os recursos!",
+  "Update User Data":"Usuario Atualizado",
+  "Succesful Change Password":"Senha Alterada com Sucesso"
 }

@@ -64,7 +64,7 @@ class FirebaseAuthBackend {
     return new Promise((resolve, reject) => {
       if (userPasswords.currentPassword && userPasswords.newPassword) {
         this.reauthentication(userPasswords.currentPassword)
-          .then(() => this.changePassword(userPasswords.newPassword))
+          .then(() => this.changePasswordRequest(userPasswords.newPassword))
             .then(() => {
               resolve("Succesful Change Password");
             })
@@ -205,7 +205,7 @@ class FirebaseAuthBackend {
   };
 
   updateUserFirestore(user) {
-    const userRef = firebase.firestore().collection("users").doc(user.uid); // Referência ao documento do usuário
+    const userRef = firebase.firestore().collection("users").doc(user.idx); // Referência ao documento do usuário
 
     const updatedData = {};
 
@@ -248,7 +248,7 @@ class FirebaseAuthBackend {
       });
   };
 
-  changePassword = (newPassword) => {
+  changePasswordRequest = (newPassword) => {
     firebase
       .auth()
       .currentUser.updatePassword(newPassword)
